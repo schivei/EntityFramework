@@ -62,32 +62,24 @@ namespace Microsoft.Data.Entity
         public static void CloseConnection([NotNull] this DatabaseFacade databaseFacade)
             => GetRelationalConnection(databaseFacade).Close();
 
-        public static IRelationalTransaction BeginTransaction([NotNull] this DatabaseFacade databaseFacade)
-            => GetRelationalConnection(databaseFacade).BeginTransaction();
-
-        public static Task<IRelationalTransaction> BeginTransactionAsync(
-            [NotNull] this DatabaseFacade databaseFacade,
-            CancellationToken cancellationToken = default(CancellationToken))
-            => GetRelationalConnection(databaseFacade).BeginTransactionAsync(cancellationToken);
-
-        public static IRelationalTransaction BeginTransaction([NotNull] this DatabaseFacade databaseFacade, IsolationLevel isolationLevel)
+        public static IDbContextTransaction BeginTransaction([NotNull] this DatabaseFacade databaseFacade, IsolationLevel isolationLevel)
             => GetRelationalConnection(databaseFacade).BeginTransaction(isolationLevel);
 
-        public static Task<IRelationalTransaction> BeginTransactionAsync(
+        public static Task<IDbContextTransaction> BeginTransactionAsync(
             [NotNull] this DatabaseFacade databaseFacade,
             IsolationLevel isolationLevel,
             CancellationToken cancellationToken = default(CancellationToken))
             => GetRelationalConnection(databaseFacade).BeginTransactionAsync(isolationLevel, cancellationToken);
 
-        public static IRelationalTransaction UseTransaction(
+        public static IDbContextTransaction UseTransaction(
             [NotNull] this DatabaseFacade databaseFacade, [CanBeNull] DbTransaction transaction)
             => GetRelationalConnection(databaseFacade).UseTransaction(transaction);
 
         public static void CommitTransaction([NotNull] this DatabaseFacade databaseFacade)
-            => GetRelationalConnection(databaseFacade).Transaction.Commit();
+            => GetRelationalConnection(databaseFacade).CurrentTransaction.Commit();
 
         public static void RollbackTransaction([NotNull] this DatabaseFacade databaseFacade)
-            => GetRelationalConnection(databaseFacade).Transaction.Rollback();
+            => GetRelationalConnection(databaseFacade).CurrentTransaction.Rollback();
 
         public static void SetCommandTimeout([NotNull] this DatabaseFacade databaseFacade, int? timeout)
             => GetRelationalConnection(databaseFacade).CommandTimeout = timeout;

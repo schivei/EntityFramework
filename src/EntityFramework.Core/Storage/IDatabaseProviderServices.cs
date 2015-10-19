@@ -33,6 +33,8 @@ namespace Microsoft.Data.Entity.Storage
         /// </summary>
         IDatabase Database { get; }
 
+        IDbContextTransactionFactory TransactionFactory { get; }
+
         /// <summary>
         ///     Gets the <see cref="IDatabaseCreator"/> for the database provider.
         /// </summary>

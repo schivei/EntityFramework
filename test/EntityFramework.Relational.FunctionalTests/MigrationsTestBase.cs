@@ -216,7 +216,7 @@ namespace Microsoft.Data.Entity.FunctionalTests
 
             var commands = generator.Generate(operations, model: null);
 
-            using (var transaction = await connection.BeginTransactionAsync())
+            using (var transaction = await connection.CreateAsync())
             {
                 await commands.ExecuteNonQueryAsync(connection);
                 transaction.Commit();

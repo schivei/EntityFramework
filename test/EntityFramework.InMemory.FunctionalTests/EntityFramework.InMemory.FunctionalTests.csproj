@@ -42,6 +42,7 @@
     <Compile Include="InheritanceInMemoryFixture.cs" />
     <Compile Include="InMemoryTestHelpers.cs" />
     <Compile Include="GearsOfWarQueryInMemoryFixture.cs" />
+    <Compile Include="InMemoryTransactionTest.cs" />
     <Compile Include="NullKeysInMemoryTest.cs" />
     <Compile Include="GraphUpdatesInMemoryTest.cs" />
     <Compile Include="InheritanceInMemoryTest.cs" />

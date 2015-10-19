@@ -10,27 +10,21 @@ using JetBrains.Annotations;
 
 namespace Microsoft.Data.Entity.Storage
 {
-    public interface IRelationalConnection : IDisposable
+    public interface IRelationalConnection : IDbContextTransactionFactory, IDisposable
     {
         string ConnectionString { get; }
 
         DbConnection DbConnection { get; }
 
-        IRelationalTransaction Transaction { get; }
+        IDbContextTransaction CurrentTransaction { get; }
 
         int? CommandTimeout { get; set; }
 
-        DbTransaction DbTransaction { get; }
+        IDbContextTransaction BeginTransaction(IsolationLevel isolationLevel);
 
-        IRelationalTransaction BeginTransaction();
+        Task<IDbContextTransaction> BeginTransactionAsync(IsolationLevel isolationLevel, CancellationToken cancellationToken = default(CancellationToken));
 
-        Task<IRelationalTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default(CancellationToken));
-
-        IRelationalTransaction BeginTransaction(IsolationLevel isolationLevel);
-
-        Task<IRelationalTransaction> BeginTransactionAsync(IsolationLevel isolationLevel, CancellationToken cancellationToken = default(CancellationToken));
-
-        IRelationalTransaction UseTransaction([CanBeNull] DbTransaction transaction);
+        IDbContextTransaction UseTransaction([CanBeNull] DbTransaction transaction);
 
         void Open();
 

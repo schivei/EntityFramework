@@ -16,12 +16,12 @@ namespace Microsoft.Data.Entity.Update.Internal
         {
             var rowsAffected = 0;
             connection.Open();
-            IRelationalTransaction startedTransaction = null;
+            IDbContextTransaction startedTransaction = null;
             try
             {
-                if (connection.Transaction == null)
+                if (connection.CurrentTransaction == null)
                 {
-                    startedTransaction = connection.BeginTransaction();
+                    startedTransaction = connection.Create();
                 }
 
                 foreach (var commandbatch in commandBatches)
@@ -48,12 +48,12 @@ namespace Microsoft.Data.Entity.Update.Internal
         {
             var rowsAffected = 0;
             await connection.OpenAsync(cancellationToken);
-            IRelationalTransaction startedTransaction = null;
+            IDbContextTransaction startedTransaction = null;
             try
             {
-                if (connection.Transaction == null)
+                if (connection.CurrentTransaction == null)
                 {
-                    startedTransaction = connection.BeginTransaction();
+                    startedTransaction = connection.Create();
                 }
 
                 foreach (var commandbatch in commandBatches)

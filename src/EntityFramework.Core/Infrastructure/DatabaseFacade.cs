@@ -84,6 +84,12 @@ namespace Microsoft.Data.Entity.Infrastructure
         public virtual Task<bool> EnsureDeletedAsync(CancellationToken cancellationToken = default(CancellationToken))
             => this.GetService<IDatabaseCreator>().EnsureDeletedAsync(cancellationToken);
 
+        public virtual IDbContextTransaction BeginTransaction()
+            => this.GetService<IDbContextTransactionFactory>().Create();
+
+        public virtual Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default(CancellationToken))
+            => this.GetService<IDbContextTransactionFactory>().CreateAsync(cancellationToken);
+
         /// <summary>
         ///     <para>
         ///         Gets the scoped <see cref="IServiceProvider" /> being used to resolve services.
