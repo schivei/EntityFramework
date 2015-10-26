@@ -13,11 +13,11 @@ using Microsoft.Data.Entity.Utilities;
 
 namespace Microsoft.Data.Entity.Storage
 {
-    public class InMemoryTransactionFactory : IDbContextTransactionFactory
+    public class InMemoryTransactionManager : IDbContextTransactionManager
     {
         private readonly InMemoryOptionsExtension _inMemoryOptionsExtension;
 
-        public InMemoryTransactionFactory([NotNull] IDbContextOptions options)
+        public InMemoryTransactionManager([NotNull] IDbContextOptions options)
         {
             Check.NotNull(options, nameof(options));
 
@@ -26,23 +26,39 @@ namespace Microsoft.Data.Entity.Storage
                 .FirstOrDefault();
         }
 
-        public virtual IDbContextTransaction Create()
+        public virtual IDbContextTransaction BeginTransaction()
         {
-            if (_inMemoryOptionsExtension.IgnoreTransactions)
+            if (!_inMemoryOptionsExtension.IgnoreTransactions)
             {
                 throw new InvalidOperationException(InMemoryStrings.TransactionsNotSupported);
             }
             return new InMemoryTransaction();
         }
 
-        public virtual Task<IDbContextTransaction> CreateAsync(CancellationToken cancellationToken = default(CancellationToken))
+        public virtual Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (_inMemoryOptionsExtension.IgnoreTransactions)
+            if (!_inMemoryOptionsExtension.IgnoreTransactions)
             {
                 throw new InvalidOperationException(InMemoryStrings.TransactionsNotSupported);
             }
 
             return Task.FromResult<IDbContextTransaction>(new InMemoryTransaction());
+        }
+
+        public virtual void CommitTransaction()
+        {
+            if (!_inMemoryOptionsExtension.IgnoreTransactions)
+            {
+                throw new InvalidOperationException(InMemoryStrings.TransactionsNotSupported);
+            }
+        }
+
+        public virtual void RollbackTransaction()
+        {
+            if (!_inMemoryOptionsExtension.IgnoreTransactions)
+            {
+                throw new InvalidOperationException(InMemoryStrings.TransactionsNotSupported);
+            }
         }
     }
 }

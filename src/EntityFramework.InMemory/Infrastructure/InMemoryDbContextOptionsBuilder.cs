@@ -20,7 +20,7 @@ namespace Microsoft.Data.Entity.Infrastructure
         protected virtual DbContextOptionsBuilder OptionsBuilder { get; }
 
         public virtual InMemoryDbContextOptionsBuilder IgnoreTransactions()
-            => SetOption(e => e.IgnoreTransactions = false);
+            => SetOption(e => e.IgnoreTransactions = true);
 
         protected virtual InMemoryDbContextOptionsBuilder SetOption([NotNull] Action<InMemoryOptionsExtension> setAction)
         {

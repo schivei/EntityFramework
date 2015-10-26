@@ -48,7 +48,7 @@ namespace Microsoft.Data.Entity.Storage
         {
             var fakeConnection = CreateConnection();
 
-            var relationalTransaction = fakeConnection.Create();
+            var relationalTransaction = fakeConnection.BeginTransaction();
 
             var relationalCommand = new RelationalCommand(
                 new FakeSensitiveDataLogger<RelationalCommand>(),

@@ -63,23 +63,56 @@ namespace Microsoft.Data.Entity
             => GetRelationalConnection(databaseFacade).Close();
 
         public static IDbContextTransaction BeginTransaction([NotNull] this DatabaseFacade databaseFacade, IsolationLevel isolationLevel)
-            => GetRelationalConnection(databaseFacade).BeginTransaction(isolationLevel);
+        {
+            var transactionManager = GetTransactionManager(databaseFacade);
+
+            var relationalTransactionManager = transactionManager as IRelationalTransactionManager;
+
+            if (relationalTransactionManager != null)
+            {
+                return relationalTransactionManager.BeginTransaction(isolationLevel);
+            }
+            else
+            {
+                return transactionManager.BeginTransaction();
+            }
+        }
 
         public static Task<IDbContextTransaction> BeginTransactionAsync(
             [NotNull] this DatabaseFacade databaseFacade,
             IsolationLevel isolationLevel,
             CancellationToken cancellationToken = default(CancellationToken))
-            => GetRelationalConnection(databaseFacade).BeginTransactionAsync(isolationLevel, cancellationToken);
+        {
+            var transactionManager = GetTransactionManager(databaseFacade);
+
+            var relationalTransactionManager = transactionManager as IRelationalTransactionManager;
+
+            if (relationalTransactionManager != null)
+            {
+                return relationalTransactionManager.BeginTransactionAsync(isolationLevel, cancellationToken);
+            }
+            else
+            {
+                return transactionManager.BeginTransactionAsync(cancellationToken);
+            }
+        }
 
         public static IDbContextTransaction UseTransaction(
             [NotNull] this DatabaseFacade databaseFacade, [CanBeNull] DbTransaction transaction)
-            => GetRelationalConnection(databaseFacade).UseTransaction(transaction);
+        {
+            var transactionManager = GetTransactionManager(databaseFacade);
 
-        public static void CommitTransaction([NotNull] this DatabaseFacade databaseFacade)
-            => GetRelationalConnection(databaseFacade).CurrentTransaction.Commit();
+            var relationalTransactionManager = transactionManager as IRelationalTransactionManager;
 
-        public static void RollbackTransaction([NotNull] this DatabaseFacade databaseFacade)
-            => GetRelationalConnection(databaseFacade).CurrentTransaction.Rollback();
+            if (relationalTransactionManager != null)
+            {
+                return relationalTransactionManager.UseTransaction(transaction);
+            }
+            else
+            {
+                return transactionManager.BeginTransaction();
+            }
+        }
 
         public static void SetCommandTimeout([NotNull] this DatabaseFacade databaseFacade, int? timeout)
             => GetRelationalConnection(databaseFacade).CommandTimeout = timeout;
@@ -89,5 +122,8 @@ namespace Microsoft.Data.Entity
 
         private static IRelationalConnection GetRelationalConnection([NotNull] this DatabaseFacade databaseFacade)
             => Check.NotNull(databaseFacade, nameof(databaseFacade)).GetService<IRelationalConnection>();
+
+        private static IDbContextTransactionManager GetTransactionManager([NotNull] this DatabaseFacade databaseFacade)
+            => Check.NotNull(databaseFacade, nameof(databaseFacade)).GetService<IDbContextTransactionManager>();
     }
 }

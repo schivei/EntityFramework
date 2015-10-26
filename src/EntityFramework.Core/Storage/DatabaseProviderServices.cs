@@ -116,7 +116,7 @@ namespace Microsoft.Data.Entity.Storage
         /// </summary>
         public abstract IDatabase Database { get; }
 
-        public abstract IDbContextTransactionFactory TransactionFactory { get; }
+        public abstract IDbContextTransactionManager TransactionManager { get; }
 
         /// <summary>
         ///     Gets the <see cref="IDatabaseCreator"/> for the database provider.

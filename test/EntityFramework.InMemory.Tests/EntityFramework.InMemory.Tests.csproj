@@ -39,6 +39,7 @@
     <Compile Include="InMemoryDatabaseProviderTest.cs" />
     <Compile Include="InMemoryDatabaseTest.cs" />
     <Compile Include="InMemoryEntityFrameworkServicesBuilderExtensionsTest.cs" />
+    <Compile Include="InMemoryTransactionManagerTest.cs" />
     <Compile Include="InMemoryValueGeneratorSelectorTest.cs" />
     <Compile Include="InMemoryIntegerValueGeneratorTest.cs" />
     <None Include="project.json" />

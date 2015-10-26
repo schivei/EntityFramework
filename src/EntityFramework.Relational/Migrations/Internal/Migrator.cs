@@ -331,7 +331,7 @@ namespace Microsoft.Data.Entity.Migrations.Internal
 
         private void Execute(IEnumerable<IRelationalCommand> relationalCommands)
         {
-            using (var transaction = _connection.Create())
+            using (var transaction = _connection.BeginTransaction())
             {
                 relationalCommands.ExecuteNonQuery(_connection);
 
@@ -344,7 +344,7 @@ namespace Microsoft.Data.Entity.Migrations.Internal
             CancellationToken cancellationToken = default(CancellationToken))
         {
 
-            using (var transaction = await _connection.CreateAsync(cancellationToken))
+            using (var transaction = await _connection.BeginTransactionAsync(cancellationToken))
             {
                 await relationalCommands.ExecuteNonQueryAsync(_connection, cancellationToken);
                 transaction.Commit();

@@ -85,10 +85,16 @@ namespace Microsoft.Data.Entity.Infrastructure
             => this.GetService<IDatabaseCreator>().EnsureDeletedAsync(cancellationToken);
 
         public virtual IDbContextTransaction BeginTransaction()
-            => this.GetService<IDbContextTransactionFactory>().Create();
+            => this.GetService<IDbContextTransactionManager>().BeginTransaction();
 
         public virtual Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default(CancellationToken))
-            => this.GetService<IDbContextTransactionFactory>().CreateAsync(cancellationToken);
+            => this.GetService<IDbContextTransactionManager>().BeginTransactionAsync(cancellationToken);
+
+        public virtual void CommitTransaction()
+            => this.GetService<IDbContextTransactionManager>().CommitTransaction();
+
+        public virtual void RollbackTransaction()
+            => this.GetService<IDbContextTransactionManager>().RollbackTransaction();
 
         /// <summary>
         ///     <para>

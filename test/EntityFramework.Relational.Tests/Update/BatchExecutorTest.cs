@@ -23,7 +23,7 @@ namespace Microsoft.Data.Entity.Tests.Update
             var transactionMock = new Mock<IDbContextTransaction>();
 
             IDbContextTransaction currentTransaction = null;
-            mockRelationalConnection.Setup(m => m.Create()).Returns(() => currentTransaction = transactionMock.Object);
+            mockRelationalConnection.Setup(m => m.BeginTransaction()).Returns(() => currentTransaction = transactionMock.Object);
             mockRelationalConnection.Setup(m => m.CurrentTransaction).Returns(() => currentTransaction);
 
             var cancellationToken = new CancellationTokenSource().Token;
@@ -59,7 +59,7 @@ namespace Microsoft.Data.Entity.Tests.Update
 
             mockRelationalConnection.Verify(rc => rc.OpenAsync(cancellationToken));
             mockRelationalConnection.Verify(rc => rc.Close());
-            mockRelationalConnection.Verify(rc => rc.Create(), Times.Never);
+            mockRelationalConnection.Verify(rc => rc.BeginTransaction(), Times.Never);
             transactionMock.Verify(t => t.Commit(), Times.Never);
             mockModificationCommandBatch.Verify(mcb => mcb.ExecuteAsync(
                 It.IsAny<IRelationalConnection>(),

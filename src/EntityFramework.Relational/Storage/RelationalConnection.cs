@@ -86,10 +86,10 @@ namespace Microsoft.Data.Entity.Storage
         }
 
         [NotNull]
-        public virtual IDbContextTransaction Create() => BeginTransaction(IsolationLevel.Unspecified);
+        public virtual IDbContextTransaction BeginTransaction() => BeginTransaction(IsolationLevel.Unspecified);
 
         [NotNull]
-        public virtual async Task<IDbContextTransaction> CreateAsync(CancellationToken cancellationToken = default(CancellationToken))
+        public virtual async Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default(CancellationToken))
             => await BeginTransactionAsync(IsolationLevel.Unspecified, cancellationToken);
 
         [NotNull]
@@ -163,6 +163,30 @@ namespace Microsoft.Data.Entity.Storage
             }
 
             return CurrentTransaction;
+        }
+
+        public virtual void CommitTransaction()
+        {
+            if(CurrentTransaction != null)
+            {
+                CurrentTransaction.Commit();
+            }
+            else
+            {
+                throw new InvalidOperationException(RelationalStrings.NoActiveTransaction);
+            }
+        }
+
+        public virtual void RollbackTransaction()
+        {
+            if (CurrentTransaction != null)
+            {
+                CurrentTransaction.Rollback();
+            }
+            else
+            {
+                throw new InvalidOperationException(RelationalStrings.NoActiveTransaction);
+            }
         }
 
         public virtual void Open()

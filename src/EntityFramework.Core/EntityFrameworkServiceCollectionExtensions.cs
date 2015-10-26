@@ -116,7 +116,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 .AddScoped(p => GetContextServices(p).ContextOptions)
                 .AddScoped(p => GetContextServices(p).DatabaseProviderServices)
                 .AddScoped(p => GetProviderServices(p).Database)
-                .AddScoped(p => GetProviderServices(p).TransactionFactory)
+                .AddScoped(p => GetProviderServices(p).TransactionManager)
                 .AddScoped(p => GetProviderServices(p).ValueGeneratorSelector)
                 .AddScoped(p => GetProviderServices(p).Creator)
                 .AddScoped(p => GetProviderServices(p).ConventionSetBuilder)

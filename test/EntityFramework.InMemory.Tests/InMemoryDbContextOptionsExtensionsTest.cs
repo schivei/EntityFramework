@@ -17,7 +17,7 @@ namespace Microsoft.Data.Entity.InMemory
 
             var extension = optionsBuilder.Options.Extensions.OfType<InMemoryOptionsExtension>().Single();
 
-            Assert.Equal(false, extension.IgnoreTransactions);
+            Assert.Equal(true, extension.IgnoreTransactions);
         }
     }
 }

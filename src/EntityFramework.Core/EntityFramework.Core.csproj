@@ -354,7 +354,7 @@
     <Compile Include="Query\Internal\IQueryBuffer.cs" />
     <Compile Include="Storage\DatabaseErrorLogState.cs" />
     <Compile Include="Storage\DatabaseProviderServices.cs" />
-    <Compile Include="Storage\IDbContextTransactionFactory.cs" />
+    <Compile Include="Storage\IDbContextTransactionManager.cs" />
     <Compile Include="Storage\IDatabase.cs" />
     <Compile Include="Extensions\EntityTypeExtensions.cs" />
     <Compile Include="Metadata\IIndex.cs" />

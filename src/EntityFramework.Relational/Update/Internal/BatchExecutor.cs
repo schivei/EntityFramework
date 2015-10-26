@@ -21,7 +21,7 @@ namespace Microsoft.Data.Entity.Update.Internal
             {
                 if (connection.CurrentTransaction == null)
                 {
-                    startedTransaction = connection.Create();
+                    startedTransaction = connection.BeginTransaction();
                 }
 
                 foreach (var commandbatch in commandBatches)
@@ -53,7 +53,7 @@ namespace Microsoft.Data.Entity.Update.Internal
             {
                 if (connection.CurrentTransaction == null)
                 {
-                    startedTransaction = connection.Create();
+                    startedTransaction = connection.BeginTransaction();
                 }
 
                 foreach (var commandbatch in commandBatches)
