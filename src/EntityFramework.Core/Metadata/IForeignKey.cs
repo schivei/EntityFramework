@@ -58,8 +58,8 @@ namespace Microsoft.Data.Entity.Metadata
         bool IsRequired { get; }
 
         /// <summary>
-        ///     Gets a value indicating how a delete operation on the principal entity should be propagated to the
-        ///     dependent entity(s).
+        ///     Gets a value indicating how a delete operation is applied to dependent entities in the relationship when the 
+        ///     principal is deleted or the relationship is severed.
         /// </summary>
         DeleteBehavior DeleteBehavior { get; }
     }

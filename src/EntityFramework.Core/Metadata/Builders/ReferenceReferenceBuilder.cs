@@ -48,6 +48,25 @@ namespace Microsoft.Data.Entity.Metadata.Builders
             _navigationToDependentName = builder.Metadata.PrincipalToDependent?.Name;
         }
 
+        /// <summary>
+        ///     <para>
+        ///         Initializes a new instance of the <see cref="ReferenceReferenceBuilder" /> class.
+        ///     </para>
+        /// </summary>
+        /// <param name="builder"> The internal builder being used to configure this relationship. </param>
+        /// <param name="oldBuilder"> A builder to copy configuration from. </param>
+        /// <param name="inverted">
+        ///     A value indicating whether reverse the direction of the relationship.
+        /// </param>
+        /// <param name="foreignKeySet">
+        ///     A value indicating whether to copy the foreign key from <paramref name="oldBuilder"/>.
+        /// </param>
+        /// <param name="principalKeySet">
+        ///     A value indicating whether to copy the principal key from <paramref name="oldBuilder"/>.
+        /// </param>
+        /// <param name="requiredSet">
+        ///     A value indicating whether to copy the requiredness of the relationship from <paramref name="oldBuilder"/>.
+        /// </param>
         protected ReferenceReferenceBuilder(
             InternalRelationshipBuilder builder,
             ReferenceReferenceBuilder oldBuilder,
@@ -97,6 +116,9 @@ namespace Microsoft.Data.Entity.Metadata.Builders
             }
         }
 
+        /// <summary>
+        ///     Gets the internal builder being used to configure this relationship.
+        /// </summary>
         protected virtual InternalRelationshipBuilder Builder { get; }
 
         /// <summary>
@@ -276,6 +298,12 @@ namespace Microsoft.Data.Entity.Metadata.Builders
         public virtual ReferenceReferenceBuilder IsRequired(bool required = true)
             => new ReferenceReferenceBuilder(Builder.IsRequired(required, ConfigurationSource.Explicit), this, requiredSet: true);
 
+        /// <summary>
+        ///     Configures how a delete operation is applied to dependent entities in the relationship when the 
+        ///     principal is deleted or the relationship is severed.
+        /// </summary>
+        /// <param name="deleteBehavior"> The action to perform. </param>
+        /// <returns> The same builder instance so that multiple configuration calls can be chained. </returns>
         public virtual ReferenceReferenceBuilder OnDelete(DeleteBehavior deleteBehavior)
             => new ReferenceReferenceBuilder(
                 Builder.DeleteBehavior(deleteBehavior, ConfigurationSource.Explicit), this);
