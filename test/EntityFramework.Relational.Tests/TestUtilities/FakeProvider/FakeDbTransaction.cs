@@ -31,5 +31,17 @@ namespace Microsoft.Data.Entity.TestUtilities.FakeProvider
         {
             RollbackCount++;
         }
+
+        public int DisposeCount { get; private set; }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                DisposeCount++;
+            }
+
+            base.Dispose(disposing);
+        }
     }
 }

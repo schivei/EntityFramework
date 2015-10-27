@@ -1,12 +1,14 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System;
 using System.Data;
 using System.Data.Common;
 using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Microsoft.Data.Entity.Infrastructure;
+using Microsoft.Data.Entity.Internal;
 using Microsoft.Data.Entity.Migrations;
 using Microsoft.Data.Entity.Storage;
 using Microsoft.Data.Entity.Utilities;
@@ -68,14 +70,9 @@ namespace Microsoft.Data.Entity
 
             var relationalTransactionManager = transactionManager as IRelationalTransactionManager;
 
-            if (relationalTransactionManager != null)
-            {
-                return relationalTransactionManager.BeginTransaction(isolationLevel);
-            }
-            else
-            {
-                return transactionManager.BeginTransaction();
-            }
+            return (relationalTransactionManager != null)
+                ? relationalTransactionManager.BeginTransaction(isolationLevel)
+                : transactionManager.BeginTransaction();
         }
 
         public static Task<IDbContextTransaction> BeginTransactionAsync(
@@ -87,14 +84,9 @@ namespace Microsoft.Data.Entity
 
             var relationalTransactionManager = transactionManager as IRelationalTransactionManager;
 
-            if (relationalTransactionManager != null)
-            {
-                return relationalTransactionManager.BeginTransactionAsync(isolationLevel, cancellationToken);
-            }
-            else
-            {
-                return transactionManager.BeginTransactionAsync(cancellationToken);
-            }
+            return (relationalTransactionManager != null)
+                ? relationalTransactionManager.BeginTransactionAsync(isolationLevel, cancellationToken)
+                : transactionManager.BeginTransactionAsync(cancellationToken);
         }
 
         public static IDbContextTransaction UseTransaction(
@@ -104,14 +96,12 @@ namespace Microsoft.Data.Entity
 
             var relationalTransactionManager = transactionManager as IRelationalTransactionManager;
 
-            if (relationalTransactionManager != null)
+            if (relationalTransactionManager == null)
             {
-                return relationalTransactionManager.UseTransaction(transaction);
+                throw new InvalidOperationException(RelationalStrings.RelationalNotInUse);
             }
-            else
-            {
-                return transactionManager.BeginTransaction();
-            }
+
+            return relationalTransactionManager.UseTransaction(transaction);
         }
 
         public static void SetCommandTimeout([NotNull] this DatabaseFacade databaseFacade, int? timeout)

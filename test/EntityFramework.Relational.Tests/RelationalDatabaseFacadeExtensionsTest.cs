@@ -179,7 +179,7 @@ namespace Microsoft.Data.Entity.Tests
         }
 
         [Fact]
-        public void use_transaction_begins_new_transaction_on_non_relational_provider()
+        public void use_transaction_throws_on_non_relational_provider()
         {
             var transactionManagerMock = new Mock<IDbContextTransactionManager>();
             var dbTransaction = Mock.Of<DbTransaction>();
@@ -190,9 +190,10 @@ namespace Microsoft.Data.Entity.Tests
             var context = RelationalTestHelpers.Instance.CreateContext(
                 new ServiceCollection().AddInstance(transactionManagerMock.Object));
 
-            Assert.Same(transaction, context.Database.UseTransaction(dbTransaction));
-
-            transactionManagerMock.Verify(m => m.BeginTransaction(), Times.Once);
+            Assert.Equal(
+                RelationalStrings.RelationalNotInUse,
+                Assert.Throws<InvalidOperationException>(
+                    () => context.Database.UseTransaction(dbTransaction)).Message);
         }
     }
 }

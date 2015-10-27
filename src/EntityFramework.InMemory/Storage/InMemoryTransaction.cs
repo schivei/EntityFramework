@@ -5,10 +5,6 @@ namespace Microsoft.Data.Entity.Storage
 {
     public class InMemoryTransaction : IDbContextTransaction
     {
-        public InMemoryTransaction()
-        {
-        }
-
         public virtual void Commit()
         {
         }

@@ -15,7 +15,7 @@ namespace Microsoft.Data.Entity.Storage
     public class RelationalTransaction : IDbContextTransaction, IInfrastructure<DbTransaction>
     {
         private readonly IRelationalConnection _relationalConnection;
-        private readonly DbTransaction _transaction;
+        private readonly DbTransaction _dbTransaction;
         private readonly ILogger _logger;
         private readonly bool _transactionOwned;
 
@@ -38,7 +38,7 @@ namespace Microsoft.Data.Entity.Storage
 
             _relationalConnection = connection;
 
-            _transaction = transaction;
+            _dbTransaction = transaction;
             _logger = logger;
             _transactionOwned = transactionOwned;
         }
@@ -49,7 +49,7 @@ namespace Microsoft.Data.Entity.Storage
                 RelationalLoggingEventId.CommittingTransaction,
                 () => RelationalStrings.RelationalLoggerCommittingTransaction);
 
-            _transaction.Commit();
+            _dbTransaction.Commit();
 
             ClearTransaction();
         }
@@ -60,7 +60,7 @@ namespace Microsoft.Data.Entity.Storage
                 RelationalLoggingEventId.RollingbackTransaction,
                 () => RelationalStrings.RelationalLoggerRollingbackTransaction);
 
-            _transaction.Rollback();
+            _dbTransaction.Rollback();
 
             ClearTransaction();
         }
@@ -73,7 +73,7 @@ namespace Microsoft.Data.Entity.Storage
 
                 if (_transactionOwned)
                 {
-                    _transaction.Dispose();
+                    _dbTransaction.Dispose();
                 }
 
                 ClearTransaction();
@@ -87,6 +87,6 @@ namespace Microsoft.Data.Entity.Storage
             _relationalConnection.UseTransaction(null);
         }
 
-        DbTransaction IInfrastructure<DbTransaction>.Instance => _transaction;
+        DbTransaction IInfrastructure<DbTransaction>.Instance => _dbTransaction;
     }
 }

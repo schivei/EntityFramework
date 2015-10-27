@@ -68,7 +68,7 @@ namespace Microsoft.Data.Entity.Storage
 
         public virtual DbConnection DbConnection => _connection.Value;
 
-        public virtual IDbContextTransaction CurrentTransaction { get; [param: NotNull] protected set; }
+        public virtual IDbContextTransaction CurrentTransaction { get;[param: NotNull] protected set; }
 
         public virtual int? CommandTimeout
         {
@@ -167,26 +167,22 @@ namespace Microsoft.Data.Entity.Storage
 
         public virtual void CommitTransaction()
         {
-            if(CurrentTransaction != null)
-            {
-                CurrentTransaction.Commit();
-            }
-            else
+            if (CurrentTransaction == null)
             {
                 throw new InvalidOperationException(RelationalStrings.NoActiveTransaction);
             }
+
+            CurrentTransaction.Commit();
         }
 
         public virtual void RollbackTransaction()
         {
-            if (CurrentTransaction != null)
-            {
-                CurrentTransaction.Rollback();
-            }
-            else
+            if (CurrentTransaction == null)
             {
                 throw new InvalidOperationException(RelationalStrings.NoActiveTransaction);
             }
+
+            CurrentTransaction.Rollback();
         }
 
         public virtual void Open()

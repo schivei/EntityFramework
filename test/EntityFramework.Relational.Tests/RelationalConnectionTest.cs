@@ -439,6 +439,29 @@ namespace Microsoft.Data.Entity.Tests
         }
 
         [Fact]
+        public void Current_transaction_is_disposed_when_connection_is_disposed()
+        {
+            var connection = new FakeRelationalConnection(
+                CreateOptions(
+                    new FakeRelationalOptionsExtension { ConnectionString = "Database=FrodoLives" }));
+
+            Assert.Equal(0, connection.DbConnections.Count);
+
+            var transaction = connection.BeginTransaction();
+
+            Assert.Equal(1, connection.DbConnections.Count);
+            var dbConnection = connection.DbConnections[0];
+
+            Assert.Equal(1, dbConnection.DbTransactions.Count);
+            var dbTransaction = dbConnection.DbTransactions[0];
+
+            connection.Dispose();
+
+            Assert.Equal(1, dbTransaction.DisposeCount);
+            Assert.Null(connection.CurrentTransaction);
+        }
+
+        [Fact]
         public void Can_use_existing_transaction()
         {
             var dbConnection = new FakeDbConnection("Database=FrodoLives");
@@ -612,7 +635,6 @@ namespace Microsoft.Data.Entity.Tests
                         () => connection.RollbackTransaction()).Message);
             }
         }
-
 
         private static IDbContextOptions CreateOptions(params RelationalOptionsExtension[] optionsExtensions)
         {
