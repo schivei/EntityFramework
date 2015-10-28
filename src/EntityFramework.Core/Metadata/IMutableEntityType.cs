@@ -1,6 +1,7 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 
@@ -8,6 +9,7 @@ namespace Microsoft.Data.Entity.Metadata
 {
     public interface IMutableEntityType : IEntityType, IMutableAnnotatable
     {
+        new Type ClrType { get; [param: CanBeNull] set; }
         new IMutableModel Model { get; }
         new IMutableEntityType BaseType { get; [param: CanBeNull] set; }
 
@@ -29,7 +31,7 @@ namespace Microsoft.Data.Entity.Metadata
 
         new IEnumerable<IMutableForeignKey> GetForeignKeys();
         IMutableForeignKey RemoveForeignKey([NotNull] IReadOnlyList<IProperty> properties, [NotNull] IKey principalKey, [NotNull] IEntityType principalEntityType);
-        
+
         IMutableIndex AddIndex([NotNull] IReadOnlyList<IMutableProperty> properties);
         new IMutableIndex FindIndex([NotNull] IReadOnlyList<IProperty> properties);
         new IEnumerable<IMutableIndex> GetIndexes();
