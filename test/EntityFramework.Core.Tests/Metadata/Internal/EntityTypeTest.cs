@@ -388,7 +388,7 @@ namespace Microsoft.Data.Entity.Metadata.Internal
             Assert.Equal(new[] { "G", "E", "F" }, b.GetProperties().Select(p => p.Name).ToArray());
             Assert.Equal(new[] { 0, 1, 2 }, b.GetProperties().Select(p => p.GetIndex()));
             Assert.Same(pk, b.FindPrimaryKey(new[] { b.FindProperty("G") }));
-            Assert.Same(b.FindKey( (IProperty)b.FindProperty("G") ), a.FindKey( (IProperty)a.FindProperty("G") ));
+            Assert.Same(b.FindKey((IProperty)b.FindProperty("G")), a.FindKey((IProperty)a.FindProperty("G")));
         }
 
         [Fact]
@@ -1032,34 +1032,32 @@ namespace Microsoft.Data.Entity.Metadata.Internal
                 Assert.Throws<ArgumentException>(() => entityType.AddIndex(new[] { idProperty })).Message);
         }
 
-        // Issue #2514
-        //[Fact]
+        [Fact]
         public void Adding_an_index_throws_when_parent_type_has_index_on_same_properties()
         {
             var model = new Model();
 
             var orderType = model.AddEntityType(typeof(Order));
             var indexProperty = orderType.GetOrAddProperty(Order.CustomerIdProperty);
-            orderType.GetOrAddIndex(indexProperty);
+            orderType.AddIndex(indexProperty);
 
             var specialOrderType = model.AddEntityType(typeof(SpecialOrder));
             specialOrderType.BaseType = orderType;
 
             Assert.Equal(
-                CoreStrings.DuplicateIndex(Property.Format(new[] { indexProperty }), typeof(SpecialOrder).FullName, typeof(Order).FullName),
+                CoreStrings.DuplicateIndex(Property.Format(new[] { indexProperty }), typeof(SpecialOrder).Name, typeof(Order).Name),
                 Assert.Throws<InvalidOperationException>(() =>
-                    specialOrderType.GetOrAddIndex(indexProperty)).Message);
+                    specialOrderType.AddIndex(indexProperty)).Message);
         }
 
-        // Issue #2514
-        //[Fact]
+        [Fact]
         public void Adding_an_index_throws_when_grandparent_type_has_index_on_same_properties()
         {
             var model = new Model();
 
             var orderType = model.AddEntityType(typeof(Order));
             var indexProperty = orderType.GetOrAddProperty(Order.CustomerIdProperty);
-            orderType.GetOrAddIndex(indexProperty);
+            orderType.AddIndex(indexProperty);
 
             var specialOrderType = model.AddEntityType(typeof(SpecialOrder));
             specialOrderType.BaseType = orderType;
@@ -1068,13 +1066,12 @@ namespace Microsoft.Data.Entity.Metadata.Internal
             verySpecialOrderType.BaseType = specialOrderType;
 
             Assert.Equal(
-                CoreStrings.DuplicateIndex(Property.Format(new[] { indexProperty }), typeof(VerySpecialOrder).FullName, typeof(Order).FullName),
+                CoreStrings.DuplicateIndex(Property.Format(new[] { indexProperty }), typeof(VerySpecialOrder).Name, typeof(Order).Name),
                 Assert.Throws<InvalidOperationException>(() =>
-                    verySpecialOrderType.GetOrAddIndex(indexProperty)).Message);
+                    verySpecialOrderType.AddIndex(indexProperty)).Message);
         }
 
-        // Issue #2514
-        //[Fact]
+        [Fact]
         public void Adding_an_index_throws_when_child_type_has_index_on_same_properties()
         {
             var model = new Model();
@@ -1083,17 +1080,16 @@ namespace Microsoft.Data.Entity.Metadata.Internal
             var indexProperty = orderType.GetOrAddProperty(Order.CustomerIdProperty);
 
             var specialOrderType = model.AddEntityType(typeof(SpecialOrder));
-            specialOrderType.GetOrAddIndex(indexProperty);
             specialOrderType.BaseType = orderType;
+            specialOrderType.AddIndex(indexProperty);
 
             Assert.Equal(
-                CoreStrings.DuplicateIndex(Property.Format(new[] { indexProperty }), typeof(Order).FullName, typeof(SpecialOrder).FullName),
+                CoreStrings.DuplicateIndex(Property.Format(new[] { indexProperty }), typeof(Order).Name, typeof(SpecialOrder).Name),
                 Assert.Throws<InvalidOperationException>(() =>
-                    orderType.GetOrAddIndex(indexProperty)).Message);
+                    orderType.AddIndex(indexProperty)).Message);
         }
 
-        // Issue #2514
-        //[Fact]
+        [Fact]
         public void Adding_an_index_throws_when_grandchild_type_has_index_on_same_properties()
         {
             var model = new Model();
@@ -1106,12 +1102,12 @@ namespace Microsoft.Data.Entity.Metadata.Internal
 
             var verySpecialOrderType = model.AddEntityType(typeof(VerySpecialOrder));
             verySpecialOrderType.BaseType = specialOrderType;
-            specialOrderType.GetOrAddIndex(indexProperty);
+            verySpecialOrderType.AddIndex(indexProperty);
 
             Assert.Equal(
-                CoreStrings.DuplicateIndex(Property.Format(new[] { indexProperty }), typeof(Order).FullName, typeof(VerySpecialOrder).FullName),
+                CoreStrings.DuplicateIndex(Property.Format(new[] { indexProperty }), typeof(Order).Name, typeof(VerySpecialOrder).Name),
                 Assert.Throws<InvalidOperationException>(() =>
-                    orderType.GetOrAddIndex(indexProperty)).Message);
+                    orderType.AddIndex(indexProperty)).Message);
         }
 
         [Fact]
@@ -1231,7 +1227,7 @@ namespace Microsoft.Data.Entity.Metadata.Internal
 
             Assert.Null(entityType.FindPrimaryKey());
             Assert.Equal(2, entityType.GetKeys().Count());
-            
+
             Assert.Null(entityType.FindPrimaryKey());
             Assert.Equal(2, entityType.GetKeys().Count());
         }
@@ -1291,7 +1287,7 @@ namespace Microsoft.Data.Entity.Metadata.Internal
             var key2 = entityType.GetOrAddKey(idProperty);
 
             Assert.NotNull(key2);
-            Assert.Same(key2, entityType.FindKey( (IProperty)idProperty ));
+            Assert.Same(key2, entityType.FindKey((IProperty)idProperty));
             Assert.Equal(2, entityType.GetKeys().Count());
             Assert.Contains(key1, entityType.GetKeys());
             Assert.Contains(key2, entityType.GetKeys());
@@ -1358,7 +1354,7 @@ namespace Microsoft.Data.Entity.Metadata.Internal
             var entityType = model.AddEntityType(typeof(Customer));
             var idProperty = entityType.GetOrAddProperty(Customer.IdProperty);
             var nameProperty = entityType.GetOrAddProperty(Customer.NameProperty);
-            
+
             Assert.Null(entityType.RemoveKey(new[] { idProperty }));
 
             var key1 = entityType.GetOrSetPrimaryKey(new[] { idProperty, nameProperty });
@@ -1368,7 +1364,7 @@ namespace Microsoft.Data.Entity.Metadata.Internal
 
             Assert.Same(key1, entityType.RemoveKey(key1.Properties));
             Assert.Null(entityType.RemoveKey(key1.Properties));
-            
+
             Assert.Equal(new[] { key2 }, entityType.GetKeys().ToArray());
 
             Assert.Same(key2, entityType.RemoveKey(new[] { idProperty }));
@@ -1670,7 +1666,7 @@ namespace Microsoft.Data.Entity.Metadata.Internal
 
             Assert.Same(fk1, orderType.RemoveForeignKey(fk1));
             Assert.Null(orderType.RemoveForeignKey(fk1));
-            
+
             Assert.Equal(new[] { fk2 }, orderType.GetForeignKeys().ToArray());
 
             Assert.Same(fk2, orderType.RemoveForeignKey(new[] { customerFk2 }, customerKey, customerType));
@@ -2117,7 +2113,7 @@ namespace Microsoft.Data.Entity.Metadata.Internal
             var index1 = entityType.GetOrAddIndex(property1);
 
             Assert.Equal(1, index1.Properties.Count);
-            Assert.Same(index1, entityType.FindIndex( (IProperty)property1 ));
+            Assert.Same(index1, entityType.FindIndex((IProperty)property1));
             Assert.Same(index1, entityType.FindIndex(property1));
             Assert.Same(property1, index1.Properties[0]);
 
