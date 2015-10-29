@@ -44,6 +44,36 @@
     <Compile Include="ApiConsistencyTest.cs" />
     <Compile Include="MySqlDmlParserTest.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\EntityFramework.Core\EntityFramework.Core.csproj">
+      <Project>{71415cec-8111-4c73-8751-512d22f10602}</Project>
+      <Name>EntityFramework.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\EntityFramework.MySql.Design\EntityFramework.MySql.Design.csproj">
+      <Project>{2FBB53A9-DC67-43F8-8BC2-F28D9956FA71}</Project>
+      <Name>EntityFramework.MySql.Design</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\EntityFramework.MySql\EntityFramework.MySql.csproj">
+      <Project>{b1ee7923-5c55-4bb6-a891-dc000577e856}</Project>
+      <Name>EntityFramework.MySql</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\EntityFramework.Relational.Design\EntityFramework.Relational.Design.csproj">
+      <Project>{7028a7e3-0ad8-4606-a922-8189c8a704e0}</Project>
+      <Name>EntityFramework.Relational.Design</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\EntityFramework.Relational\EntityFramework.Relational.csproj">
+      <Project>{75c5a774-a3f3-43eb-97d3-dbe0cf2825d8}</Project>
+      <Name>EntityFramework.Relational</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EntityFramework.Core.Tests\EntityFramework.Core.Tests.csproj">
+      <Project>{EF361118-7D0D-453E-ADA4-2F24FBEE196C}</Project>
+      <Name>EntityFramework.Core.Tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EntityFramework.Relational.Design.Tests\EntityFramework.Relational.Design.Tests.csproj">
+      <Project>{a8b8291a-2e63-48dc-a19e-41af9e50f22d}</Project>
+      <Name>EntityFramework.Relational.Design.Tests</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

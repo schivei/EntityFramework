@@ -83,12 +83,31 @@
     <Compile Include="StoreGeneratedMySqlTest.cs" />
     <Compile Include="TestModels\MySqlNorthwindContext.cs" />
     <Compile Include="TestMySqlModelSource.cs" />
-    <None Include="northwind.db">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <Compile Include="TransactionMySqlFixture.cs" />
     <Compile Include="TransactionMySqlTest.cs" />
     <None Include="project.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\EntityFramework.Core\EntityFramework.Core.csproj">
+      <Project>{71415CEC-8111-4C73-8751-512D22F10602}</Project>
+      <Name>EntityFramework.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\EntityFramework.MySql\EntityFramework.MySql.csproj">
+      <Project>{b1ee7923-5c55-4bb6-a891-dc000577e856}</Project>
+      <Name>EntityFramework.MySql</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\EntityFramework.Relational\EntityFramework.Relational.csproj">
+      <Project>{75c5a774-a3f3-43eb-97d3-dbe0cf2825d8}</Project>
+      <Name>EntityFramework.Relational</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EntityFramework.Core.FunctionalTests\EntityFramework.Core.FunctionalTests.csproj">
+      <Project>{6AB933C7-DE2A-45F2-BDC6-E71A01EF7756}</Project>
+      <Name>EntityFramework.Core.FunctionalTests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EntityFramework.Relational.FunctionalTests\EntityFramework.Relational.FunctionalTests.csproj">
+      <Project>{82FAD20C-28C6-4B48-B7E4-971AC821E27A}</Project>
+      <Name>EntityFramework.Relational.FunctionalTests</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

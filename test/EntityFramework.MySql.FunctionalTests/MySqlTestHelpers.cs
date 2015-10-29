@@ -3,8 +3,8 @@
 
 using Microsoft.Data.Entity.Infrastructure;
 using Microsoft.Data.Entity.Tests;
-using Microsoft.Data.MySql;
 using Microsoft.Extensions.DependencyInjection;
+using MySql.Data.MySqlClient;
 
 namespace Microsoft.Data.Entity.MySql.Tests
 {

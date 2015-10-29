@@ -8,8 +8,8 @@ using Microsoft.Data.Entity.ChangeTracking.Internal;
 using Microsoft.Data.Entity.FunctionalTests;
 using Microsoft.Data.Entity.FunctionalTests.TestModels;
 using Microsoft.Data.Entity.Infrastructure;
-using Microsoft.Data.MySql;
 using Microsoft.Extensions.DependencyInjection;
+using MySql.Data.MySqlClient;
 
 namespace Microsoft.Data.Entity.MySql.FunctionalTests
 {
@@ -46,7 +46,7 @@ namespace Microsoft.Data.Entity.MySql.FunctionalTests
         private static string CreateConnectionString(string name)
             => new MySqlConnectionStringBuilder
             {
-                DataSource = name + ".db"
+                Database = name
             }.ConnectionString;
 
         protected override void CreateAndSeedDatabase(string databaseName, Func<MonsterContext> createContext)

@@ -50,6 +50,36 @@
     <Compile Include="Storage\MySqlTypeMappingTest.cs" />
     <None Include="project.json" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\EntityFramework.Core\EntityFramework.Core.csproj">
+      <Project>{71415cec-8111-4c73-8751-512d22f10602}</Project>
+      <Name>EntityFramework.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\EntityFramework.MySql\EntityFramework.MySql.csproj">
+      <Project>{b1ee7923-5c55-4bb6-a891-dc000577e856}</Project>
+      <Name>EntityFramework.MySql</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\EntityFramework.Relational\EntityFramework.Relational.csproj">
+      <Project>{75c5a774-a3f3-43eb-97d3-dbe0cf2825d8}</Project>
+      <Name>EntityFramework.Relational</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EntityFramework.Core.Tests\EntityFramework.Core.Tests.csproj">
+      <Project>{EF361118-7D0D-453E-ADA4-2F24FBEE196C}</Project>
+      <Name>EntityFramework.Core.Tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EntityFramework.MySql.FunctionalTests\EntityFramework.MySql.FunctionalTests.csproj">
+      <Project>{4A14E430-8704-4F96-9390-92A57DDA0561}</Project>
+      <Name>EntityFramework.MySql.FunctionalTests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EntityFramework.Relational.FunctionalTests\EntityFramework.Relational.FunctionalTests.csproj">
+      <Project>{82fad20c-28c6-4b48-b7e4-971ac821e27a}</Project>
+      <Name>EntityFramework.Relational.FunctionalTests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EntityFramework.Relational.Tests\EntityFramework.Relational.Tests.csproj">
+      <Project>{001005b3-d16f-4399-9265-a67d619652bd}</Project>
+      <Name>EntityFramework.Relational.Tests</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

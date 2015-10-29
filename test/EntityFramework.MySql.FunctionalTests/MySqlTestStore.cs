@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using Microsoft.Data.Entity.FunctionalTests;
-using Microsoft.Data.MySql;
+using MySql.Data.MySqlClient;
 
 namespace Microsoft.Data.Entity.MySql.FunctionalTests
 {
@@ -114,26 +114,22 @@ namespace Microsoft.Data.Entity.MySql.FunctionalTests
 
             if (_deleteDatabase)
             {
-                var fileName = _name + ".db";
-                try
+                using (var connection = new MySqlConnection(CreateConnectionString(_name)))
+                using (var cmd = connection.CreateCommand())
                 {
-                    // TODO figure out why some tests cannot delete db files
-                    File.Delete(fileName);
-                }
-                catch (IOException e)
-                {
-                    Debug.WriteLine(e.Message);
+                    cmd.CommandText = $"DROP DATABASE `{_name}`;";
+                    cmd.ExecuteNonQuery();
                 }
             }
+
             base.Dispose();
         }
 
         public static string CreateConnectionString(string name, bool sharedCache = false) =>
             new MySqlConnectionStringBuilder
             {
-                DataSource = name + ".db",
-                Cache = sharedCache ? MySqlConnectionCacheMode.Shared : MySqlConnectionCacheMode.Private
-            }
-                .ToString();
+                Database = name,
+                TableCaching = sharedCache
+            }.ToString();
     }
 }

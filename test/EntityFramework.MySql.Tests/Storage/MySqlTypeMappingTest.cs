@@ -5,7 +5,7 @@ using System;
 using System.Data;
 using System.Data.Common;
 using Microsoft.Data.Entity.Storage.Internal;
-using Microsoft.Data.MySql;
+using MySql.Data.MySqlClient;
 using Xunit;
 
 namespace Microsoft.Data.Entity.Storage

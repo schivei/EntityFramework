@@ -3,7 +3,7 @@
 
 using System.Linq;
 using Microsoft.Data.Entity.Infrastructure.Internal;
-using Microsoft.Data.MySql;
+using MySql.Data.MySqlClient;
 using Xunit;
 
 namespace Microsoft.Data.Entity.MySql.Tests
