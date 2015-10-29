@@ -1,0 +1,26 @@
+{
+  "version": "1.0.0-*",
+  "description": "MySql data store for Entity Framework.",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/aspnet/entityframework"
+  },
+  "compilationOptions": {
+    "warningsAsErrors": true
+  },
+  "dependencies": {
+    "EntityFramework.Relational": "7.0.0-*",
+    "MySql.Data": "6.9.8",
+    "build": "0.4.6"
+  },
+  "compile": "..\\Shared\\*.cs",
+  "namedResource": {
+    "EntityFramework.MySql.MySqlStrings": "Properties/MySqlStrings.resx"
+  },
+  "resource": [
+    "Properties/EntityFramework.MySql.rd.xml"
+  ],
+  "frameworks": {
+    "net451": { }
+  }
+}

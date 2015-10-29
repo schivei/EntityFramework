@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <Import Project="..\..\tools\EntityFramework.props" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4A14E430-8704-4F96-9390-92A57DDA0561}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Microsoft.Data.Entity.MySql.FunctionalTests</RootNamespace>
+    <AssemblyName>EntityFramework.MySql.FunctionalTests</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AsTrackingMySqlTest.cs" />
+    <Compile Include="AsNoTrackingMySqlTest.cs" />
+    <Compile Include="AsyncFromSqlQueryMySqlTest.cs" />
+    <Compile Include="AsyncQueryMySqlTest.cs" />
+    <Compile Include="AutoincrementTest.cs" />
+    <Compile Include="BuiltInDataTypesMySqlFixture.cs" />
+    <Compile Include="BuiltInDataTypesMySqlTest.cs" />
+    <Compile Include="ChangeTrackingMySqlTest.cs" />
+    <Compile Include="CommandConfigurationTest.cs" />
+    <Compile Include="ComplexNavigationsQueryMySqlFixture.cs" />
+    <Compile Include="ComplexNavigationsQueryMySqlTest.cs" />
+    <Compile Include="CompositeKeyEndToEndTest.cs" />
+    <Compile Include="DataAnnotationMySqlFixture.cs" />
+    <Compile Include="DataAnnotationMySqlTest.cs" />
+    <Compile Include="DefaultValuesTest.cs" />
+    <Compile Include="F1MySqlFixture.cs" />
+    <Compile Include="MySqlForeignKeyTest.cs" />
+    <Compile Include="FromSqlQueryMySqlTest.cs" />
+    <Compile Include="GearsOfWarQueryMySqlFixture.cs" />
+    <Compile Include="GearsOfWarQueryMySqlTest.cs" />
+    <Compile Include="GraphUpdatesMySqlTest.cs" />
+    <Compile Include="IncludeAsyncMySqlTest.cs" />
+    <Compile Include="IncludeOneToOneMySqlTest.cs" />
+    <Compile Include="IncludeMySqlTest.cs" />
+    <Compile Include="InheritanceMySqlFixture.cs" />
+    <Compile Include="InheritanceMySqlTest.cs" />
+    <Compile Include="MappingQueryMySqlFixture.cs" />
+    <Compile Include="MappingQueryMySqlTest.cs" />
+    <Compile Include="MigrationsMySqlFixture.cs" />
+    <Compile Include="MigrationsMySqlTest.cs" />
+    <Compile Include="MonsterFixupMySqlTest.cs" />
+    <Compile Include="NorthwindQueryMySqlFixture.cs" />
+    <Compile Include="NullKeysMySqlTest.cs" />
+    <Compile Include="NullSemanticsQueryMySqlFixture.cs" />
+    <Compile Include="NullSemanticsQueryMySqlTest.cs" />
+    <Compile Include="OneToOneQueryMySqlFixture.cs" />
+    <Compile Include="OptimisticConcurrencyMySqlTest.cs" />
+    <Compile Include="PropertyEntryMySqlTest.cs" />
+    <Compile Include="QueryNavigationsInMemoryTest.cs" />
+    <Compile Include="QueryNoClientEvalMySqlTest.cs" />
+    <Compile Include="QueryNoClientEvalMySqlFixture.cs" />
+    <Compile Include="QueryMySqlTest.cs" />
+    <Compile Include="MySqlTestHelpers.cs" />
+    <Compile Include="MySqlTestStore.cs" />
+    <Compile Include="StoreGeneratedMySqlTest.cs" />
+    <Compile Include="TestModels\MySqlNorthwindContext.cs" />
+    <Compile Include="TestMySqlModelSource.cs" />
+    <None Include="northwind.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Compile Include="TransactionMySqlFixture.cs" />
+    <Compile Include="TransactionMySqlTest.cs" />
+    <None Include="project.json" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
